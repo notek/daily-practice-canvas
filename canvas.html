@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>the canvas test</title>
+	<script>
+
+		var createCanvas;
+
+		createCanvas = function(parameters) {
+			//create canvas element and get sketchpad.
+			var canvas = document.createElement('canvas');
+			var draw = canvas.getContext('2d');
+
+			//set sketchpad properties.	
+			canvas.width = parameters.width || 400,
+			canvas.height = parameters.height || 400,
+			canvas.style.background = parameters.bg || '#ccc';
+
+			//insert into painting environmental.
+			(parameters.body || document).appendChild(canvas);
+
+			//starting painting.
+			draw.fillStyle = 'blue';
+			draw.beginPath();
+			draw.arc(100, 200, 10, 0, Math.PI * 2, true);
+			draw.closePath();
+			draw.fill();
+
+			draw.strokeStyle = 'red';
+			draw.beginPath();
+			draw.moveTo(110, 200);
+			draw.lineTo(200, 200);
+			draw.closePath();
+			draw.stroke();
+
+			draw.fillStyle = 'blue';
+			draw.beginPath();
+			draw.arc(210, 200, 10, 0, Math.PI * 2, true);
+			draw.closePath();
+			draw.fill();
+
+		};
+
+		window.onload = function() {
+			
+			createCanvas({
+				bg: '#fcc',
+				body: document.body
+			});
+
+		};
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
