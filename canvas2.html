@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas basic test two</title>
+	<script>
+		window.onload = function() {
+
+			var canvas = document.getElementById('can');
+			var draw = canvas.getContext('2d');
+
+			//draw rectangle
+			draw.fillStyle = 'blue';
+			draw.fillRect(50, 50, 20, 20);
+
+			//draw line
+			draw.beginPath();
+			draw.moveTo(70.5, 70.5);
+			draw.lineTo(150.5, 150.5);
+			draw.lineWidth = .5;
+			draw.strokeStyle = 'red';
+			draw.closePath();
+			draw.stroke();
+
+			draw.beginPath();
+			draw.moveTo(150.5, 150.5);
+			draw.lineTo(230.5, 70.5);
+			draw.lineWidth = .5;
+			draw.strokeStyle = 'red';
+			draw.closePath();
+			draw.stroke();
+
+			//draw circle
+			draw.beginPath();
+			draw.fillStyle = 'green';
+			draw.arc(225, 65, 10, 0, Math.PI * 2, false);
+			draw.closePath();
+			draw.fill();
+
+			//write text
+			draw.beginPath();
+			draw.font = 'normal 18px Monaco';
+			draw.textAlign = 'left';
+			draw.fillStyle = 'yellow';
+			draw.strokeStyle = 'green';
+			draw.fillText('test', 132, 168);
+			draw.strokeText('test too', 112, 186);
+			draw.closePath();
+
+		};
+
+	</script>
+</head>
+<body>
+	<canvas id="can" width="400" height="400" style="background:#fcc;">your browser not support canvas!</canvas>
+</body>
+</html>

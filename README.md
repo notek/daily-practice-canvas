@@ -11,3 +11,5 @@
 	* `painting line --> canvas.lineTo(x, y);`
 	* `set stroke color --> canvas.strokeStyle = red;`
 	* `fill the stroke color --> canvas.stroke();`
+
+
