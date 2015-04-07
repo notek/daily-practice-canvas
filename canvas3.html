@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas basic test three</title>
+	<script>
+		window.onload = function() {
+
+			var canvas = document.getElementById('can');
+			var stepProcess = null,
+				stepX = 0, stepY = 0,
+				x = 0, y = 0, g = null,
+				draw = canvas.getContext('2d');
+
+			requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+
+			if(draw) {
+
+				//draw a rectangle
+				draw.fillStyle = 'red';
+				draw.fillRect(0, 0, 20, 20);
+
+				window.onkeyup = function(e) {
+
+					var keyCode = e.keyCode;
+
+					switch(keyCode) {
+
+						//left
+						case 37:
+							x -= 20;
+
+							stepProcess = function() {
+								
+								if(stepX > x) {
+									draw.clearRect(stepX, stepY, 20, 20);
+									stepX -= 2;
+									draw.fillRect(stepX, stepY, 20, 20);
+									g = requestAnimationFrame(stepProcess);
+								}
+
+							}
+							requestAnimationFrame(stepProcess);
+							break;
+
+						//top
+						case 38:
+							y -= 20;
+
+							stepProcess = function() {
+								
+								if(stepY > y) {
+									draw.clearRect(stepX, stepY, 20, 20);
+									stepY -= 2;
+									draw.fillRect(stepX, stepY, 20, 20);
+									g = requestAnimationFrame(stepProcess);
+								}
+
+							}
+							requestAnimationFrame(stepProcess);
+							break;
+						
+						//right		
+						case 39:
+							x += 20;
+
+							stepProcess = function() {
+								
+								if(stepX < x) {
+									draw.clearRect(stepX, stepY, 20, 20);
+									stepX += 2;
+									draw.fillRect(stepX, stepY, 20, 20);
+									g = requestAnimationFrame(stepProcess);
+								}
+
+							}
+							requestAnimationFrame(stepProcess);
+							break;	
+
+						//bottom	
+						case 40:
+							y += 20;
+
+							stepProcess = function() {
+								
+								if(stepY < y) {
+									draw.clearRect(stepX, stepY, 20, 20);
+									stepY += 2;
+									draw.fillRect(stepX, stepY, 20, 20);
+									g = requestAnimationFrame(stepProcess);
+								}
+
+							}
+							requestAnimationFrame(stepProcess);
+							break;
+
+						default:;
+
+					}
+
+				};
+
+			}else {
+				alert('not support canvas sketch!');
+			}
+
+		};
+	</script>
+</head>
+<body>
+	<canvas id="can" height="400" width="400" style="background:#fcc;">your browser not support canvas.</canvas>
+</body>
+</html>
