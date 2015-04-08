@@ -10,6 +10,8 @@
 			var stepProcess = null,
 				stepX = 0, stepY = 0,
 				x = 0, y = 0, g = null,
+				randomX = 0, randomY = 0,
+				createRandomToTwenty = null,
 				draw = canvas.getContext('2d');
 
 			requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
@@ -17,13 +19,33 @@
 
 			if(draw) {
 
-				//draw a rectangle
+				//create random dot
+				createRandomToTwenty = function() {
+
+					var random = Math.ceil(Math.random() * (380 - 20) + 20);
+
+					while(random % 20 !== 0) {
+						random++;
+					}
+
+					return random;
+
+				};
+				randomX = createRandomToTwenty(),
+				randomY = createRandomToTwenty();
+
 				draw.fillStyle = 'red';
+				draw.fillRect(randomX, randomY, 20, 20);
+
+				//draw a rectangle
+				draw.fillStyle = 'blue';
 				draw.fillRect(0, 0, 20, 20);
 
+				//moving red dot
 				window.onkeyup = function(e) {
 
 					var keyCode = e.keyCode;
+					draw.fillStyle = 'blue';
 
 					switch(keyCode) {
 
@@ -99,7 +121,23 @@
 
 					}
 
+					//判断移动的元素是否已经和随机元素重叠
+					if(keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40) {
+						console.log(randomX, stepX, randomY, stepY);
+						if(randomX === stepX && randomY === stepY) {
+
+							randomX = createRandomToTwenty(),
+							randomY = createRandomToTwenty();
+
+							draw.fillStyle = 'red';
+							draw.fillRect(randomX, randomY, 20, 20);							
+
+						}
+
+					}
+
 				};
+
 
 			}else {
 				alert('not support canvas sketch!');
