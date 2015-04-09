@@ -2,23 +2,29 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>canvas basic test four</title>
+	<title>canvas basic test three</title>
 	<script>
 		window.onload = function() {
 
 			var canvas = document.getElementById('can');
-			var stepProcess = null,
-				stepX = 0, stepY = 0,
-				x = 0, y = 0, g = null,
-				randomX = 0, randomY = 0,
+			var	overlap = null,
+				stepProcess = null,
 				createRandomToTwenty = null,
 				draw = canvas.getContext('2d');
+			var	amount = 0,
+				x = 0, y = 0,
+				stepX = 0, stepY = 0,
+				randomX = 0, randomY = 0;
 
 			requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
 
 			if(draw) {
-
+				//write combo the number
+				draw.fillStyle = 'green';
+				draw.font = '18px Monaco';
+				draw.fillText('combo:0', 300, 30);
+				
 				//create random dot
 				createRandomToTwenty = function() {
 
@@ -37,6 +43,26 @@
 				draw.fillStyle = 'red';
 				draw.fillRect(randomX, randomY, 20, 20);
 
+				//determine whether the overlap
+				overlap = function() {
+
+					if(randomX === stepX && randomY === stepY) {
+						amount++; //如果发生一次重叠，则代表被吃了一次，计数增加1
+						draw.fillStyle = 'green';
+						draw.clearRect(300, 10, 90, 40);
+						draw.fillText('combo:' + amount, 300, 30);	
+
+						randomX = createRandomToTwenty(),
+						randomY = createRandomToTwenty();
+
+						draw.fillStyle = 'red';
+						draw.fillRect(randomX, randomY, 20, 20);
+						draw.fillStyle = 'blue';							
+
+					}
+
+				};
+
 				//draw a rectangle
 				draw.fillStyle = 'blue';
 				draw.fillRect(0, 0, 20, 20);
@@ -45,21 +71,21 @@
 				window.onkeyup = function(e) {
 
 					var keyCode = e.keyCode;
-					draw.fillStyle = 'blue';
 
 					switch(keyCode) {
 
 						//left
 						case 37:
-							x -= 20;
 
+							x -= 20;
 							stepProcess = function() {
 								
 								if(stepX > x) {
 									draw.clearRect(stepX, stepY, 20, 20);
 									stepX -= 2;
+									overlap(); //is overlap
 									draw.fillRect(stepX, stepY, 20, 20);
-									g = requestAnimationFrame(stepProcess);
+									requestAnimationFrame(stepProcess);
 								}
 
 							}
@@ -68,15 +94,16 @@
 
 						//top
 						case 38:
-							y -= 20;
 
+							y -= 20;
 							stepProcess = function() {
 								
 								if(stepY > y) {
 									draw.clearRect(stepX, stepY, 20, 20);
 									stepY -= 2;
+									overlap(); //is overlap
 									draw.fillRect(stepX, stepY, 20, 20);
-									g = requestAnimationFrame(stepProcess);
+									requestAnimationFrame(stepProcess);
 								}
 
 							}
@@ -85,15 +112,16 @@
 						
 						//right		
 						case 39:
-							x += 20;
 
+							x += 20;
 							stepProcess = function() {
 								
 								if(stepX < x) {
 									draw.clearRect(stepX, stepY, 20, 20);
 									stepX += 2;
+									overlap(); //is overlap
 									draw.fillRect(stepX, stepY, 20, 20);
-									g = requestAnimationFrame(stepProcess);
+									requestAnimationFrame(stepProcess);
 								}
 
 							}
@@ -102,15 +130,16 @@
 
 						//bottom	
 						case 40:
-							y += 20;
 
+							y += 20;
 							stepProcess = function() {
 								
 								if(stepY < y) {
 									draw.clearRect(stepX, stepY, 20, 20);
 									stepY += 2;
+									overlap(); //is overlap
 									draw.fillRect(stepX, stepY, 20, 20);
-									g = requestAnimationFrame(stepProcess);
+									requestAnimationFrame(stepProcess);
 								}
 
 							}
@@ -118,21 +147,6 @@
 							break;
 
 						default:;
-
-					}
-
-					//判断移动的元素是否已经和随机元素重叠
-					if(keyCode === 37 || keyCode === 38 || keyCode === 39 || keyCode === 40) {
-						console.log(randomX, stepX, randomY, stepY);
-						if(randomX === stepX && randomY === stepY) {
-
-							randomX = createRandomToTwenty(),
-							randomY = createRandomToTwenty();
-
-							draw.fillStyle = 'red';
-							draw.fillRect(randomX, randomY, 20, 20);							
-
-						}
 
 					}
 
