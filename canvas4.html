@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas basic test four</title>
+	<style>
+		body {
+			margin: 0;
+		}
+
+		#can {
+			display: block;
+			margin: 50px auto;
+			border:2px solid #fcc;
+		}
+	</style>
+	<script>
+		window.onload = function() {
+
+			var can = document.querySelector('#can');
+			var flag = false, x, y,
+				draw = can.getContext('2d');
+
+			draw.beginPath();	
+			draw.lineWidth = 1;
+			draw.strokeStyle = 'red';
+
+			if(draw) {
+
+				window.onmousedown = function(e) {
+
+					x = can.offsetLeft,
+					y = can.offsetTop,
+					wid = can.offsetWidth,
+					hei = can.offsetHeight,
+					drawX = e.clientX - x,
+					drawY = e.clientY - y;
+
+					//mouse does not exceed the specified area
+					e.clientX > x && e.clientY > y && e.clientX < (wid + x) && e.clientY < (hei + y) && (flag = true);
+					draw.moveTo(drawX, drawY);
+				};
+
+				window.onmousemove = function(e) {
+
+					if(flag) {
+
+						drawX = e.clientX - x,
+						drawY = e.clientY - y;
+						
+						draw.lineTo(drawX + 1, drawY + 1);
+						draw.lineCap = "round";
+						//draw.closePath();  you can add this painting fan.
+						draw.stroke();
+
+					}
+
+				};
+
+				window.onmouseup = function() {
+
+					flag = false;
+					console.log(can.toDataURL());
+
+				};
+
+			}else {
+				alert('not support canvas sketch.');
+			}
+
+		};
+	</script>
+</head>
+<body>
+	<canvas id="can" width="500" height="500">your browser not support canvas!</canvas>
+</body>
+</html>
